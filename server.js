@@ -1,4 +1,5 @@
 const express = require("express");
+const producController = require("./controllers/produc.controller");
 
 // estara utilizando o express como base 
 const server = express();
@@ -14,19 +15,9 @@ let productList = [
     },
 ];
 
-server.get("/Products", (request,response)=>{
-    response.json(productList);
-});
+server.get("/Products", producController.list)
 
-server.post("/Products", (request,response)=>{
-    const newProduct = request.body;
-    const newId = productList.length +1;
-
-    newProduct.id = newId;
-    productList.push(newProduct);
-
-    response.status(201).json(newProduct);
-});
+server.post("/Products", producController.create)
 
 server.get("/", (request,response)=>{
     response.send("Hello World");
