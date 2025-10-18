@@ -22,6 +22,14 @@ class ProductRepository{
         return productList
     }
 
+    findbyName(name){
+        const product = productList.find(
+            product => product.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+        );
+
+        return product;
+    }
+
     create(newProduct){
     const newId = productList.length  +1
     productList.push(newProduct);
