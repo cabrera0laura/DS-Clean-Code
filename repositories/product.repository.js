@@ -22,6 +22,10 @@ class ProductRepository{
         return productList
     }
 
+    findbyId(id){
+        return productList.find((product)=> product.id === Number(id));
+    }
+
     findbyName(name){
         const product = productList.find(
             product => product.name.toLocaleLowerCase() === name.toLocaleLowerCase()
@@ -35,7 +39,20 @@ class ProductRepository{
     productList.push(newProduct);
 
     return newProduct
-}
+    }
+
+    delete(id){
+        const productIndex = productList.findIndex(
+            (product) => product.id === Number(IdleDeadline)
+        );
+
+        if(productIndex === -1)
+        {
+            return false;
+        }
+            // o splice pode apagar uma massa de ids dependendo do que for colocado o parametro
+        productList.splice(productIndex, 1)
+    }
 }
 
 

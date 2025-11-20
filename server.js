@@ -15,9 +15,12 @@ let productList = [
     },
 ];
 
+// Criando a API das ... rota? ...
 server.get("/Products", producController.list)
 
 server.post("/Products", producController.create)
+
+server.delete("/Products/:id", producController.delete)
 
 server.get("/", (request,response)=>{
     response.send("Hello World");

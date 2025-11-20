@@ -1,4 +1,5 @@
 const productRepository = require("../repositories/product.repository");
+
 class ProductService {
     listAll(){
         return productRepository.findAll();
@@ -10,7 +11,32 @@ class ProductService {
         if(existProduct)
             throw new Error("Produto já cadastrado!. 🤦‍♀️");
 
-        return productRepository.create(newProduct);
+        const productEntity = new ProductService(newProduct);
+        
+        return productRepository.create(productEntity);
+    }
+
+    delete(id){
+        
+        this.findbyId(id)
+
+        productRepository.delete(id);
+        return;
+    }
+
+    // criando um metodo para buscar o produto para utilizar em diferentes lugares
+    findbyId(id){
+         const existingProduct = productRepository.findbyId(id);
+
+        if(!existingProduct){
+            throw new  Error("Produto não encontrado");
+        }
+
+        return existingProduct
+    }
+
+    update(id,values){
+        const  existingProduct =
     }
 }
 
