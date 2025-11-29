@@ -1,15 +1,19 @@
-const productService = require("../services/product.service");
+//const productService = require("../services/product.service");
 
 class ProductController {
+    constructor(service) {
+    this.productService = service;
+  }
+    
     list(request,response){
-        const products =productService.listAll();
+        const products = this.productService.listAll();
         response.json(products);
     }
 
     delete(request, response){
         try {
             const productId = request.params.id;
-            productService.delete(productId);
+            this.productService.delete(productId);
 
             response.status(200).json({message: "Produto removido com sucesso"});   
 
@@ -26,7 +30,7 @@ class ProductController {
     create(request,response){
         try {
          
-        const newProduct = productService.create(request.body);
+        const newProduct = this.productService.create(request.body);
 
         response.status(201).json(newProduct);   
         
@@ -37,6 +41,20 @@ class ProductController {
             response.status(400).json(errorMessage);
         }
     }
+
+    update(req, res) {
+        try {
+            const { id, name, price, quantity } = req.body;
+
+            const updated = this.productService.update(id, {name, price, quantity});
+
+            return res.status(200).json(updated);
+
+        } catch (error) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
+
 }
 
-module.exports = new ProductController();
+module.exports = new ProductController;

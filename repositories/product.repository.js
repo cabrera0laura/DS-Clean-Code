@@ -22,20 +22,22 @@ class ProductRepository{
         return productList
     }
 
-    findbyId(id){
+    findById(id){
         return productList.find((product)=> product.id === Number(id));
     }
 
-    findbyName(name){
+    findByName(name){
         const product = productList.find(
-            product => product.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+            product => product.name.toLowerCase() === name.toLowerCase()
         );
 
         return product;
     }
 
     create(newProduct){
-    const newId = productList.length  +1
+    const newId = productList.length  +1;
+    
+    newProduct.id = newId;
     productList.push(newProduct);
 
     return newProduct
@@ -43,7 +45,7 @@ class ProductRepository{
 
     delete(id){
         const productIndex = productList.findIndex(
-            (product) => product.id === Number(IdleDeadline)
+            (product) => product.id === Number(id)
         );
 
         if(productIndex === -1)
@@ -53,7 +55,30 @@ class ProductRepository{
             // o splice pode apagar uma massa de ids dependendo do que for colocado o parametro
         productList.splice(productIndex, 1)
     }
+//A rota deve permitir edição de nome, preço e quantidade em estoque dos produtos
+    update(id, values) {
+        const index = this.products.findIndex(p => p.id === id);
+
+        if (index === -1) {
+            return null;
+        }
+
+        if (values.name) {
+            productList[index].name = values.name;
+        }
+
+        if (values.price) {
+            productList[index].price = values.price;
+        }
+
+        if (values.quantity) {
+            productList[index].quantity = values.quantity;
+        }
+
+        return this.products[index];
+    }
+
 }
 
 
-module.exports = new ProductRepository();
+module.exports = new ProductRepository;

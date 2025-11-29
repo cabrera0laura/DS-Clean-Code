@@ -1,32 +1,38 @@
-const productRepository = require("../repositories/product.repository");
+const Product = require("../entities/product.entity");
+const ProductExistsError = require("../errors/ProductExistsError");
 
 class ProductService {
+    constructor(repository) {
+    this.productRepository = repository;
+    }
+    
     listAll(){
-        return productRepository.findAll();
+        return this.productRepository.findAll();
 
     }
 
     create(newProduct){
-        const existProduct =  productRepository.findbyName(newProduct.name);
-        if(existProduct)
-            throw new Error("Produto já cadastrado!. 🤦‍♀️");
+        const existProduct =  this.productRepository.findByName(newProduct.name);
+        if(existProduct){
+            throw new ProductExistsError();
+        }
 
-        const productEntity = new ProductService(newProduct);
+        const productEntity = new Product(newProduct);
         
-        return productRepository.create(productEntity);
+        return this.productRepository.create(productEntity);
     }
 
     delete(id){
         
-        this.findbyId(id)
+        this.findById(id)
 
-        productRepository.delete(id);
+        this.productRepository.delete(id);
         return;
     }
 
     // criando um metodo para buscar o produto para utilizar em diferentes lugares
-    findbyId(id){
-         const existingProduct = productRepository.findbyId(id);
+    findById(id){
+         const existingProduct = this.productRepository.findById(id);
 
         if(!existingProduct){
             throw new  Error("Produto não encontrado");
@@ -36,8 +42,20 @@ class ProductService {
     }
 
     update(id,values){
-        const  existingProduct =
+        const  existingProduct = this.findById(id);
+
+        if(values.name)
+            {
+                const existingProduct = this.productRepository.findByName(values.name);
+
+                if(existingProduct && existingProduct.id !== id)
+                {
+                    throw new ProductExistsError();
+                }
+            }
+
+            return this.productRepository.update(id, values);
     }
 }
 
-module.exports = new ProductService();
+module.exports =  ProductService;
