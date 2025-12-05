@@ -28,7 +28,7 @@ server.get("/products", productController.list.bind(productController));
 server.post("/products", productController.create.bind(productController));
 
 server.delete("/products/:id", productController.delete.bind(productController));
-server.put("/products", productController.update.bind(productController));
+server.put("/products/:id", productController.update.bind(productController));
 
 server.get("/", (request,response)=>{
     response.send("Hello World");

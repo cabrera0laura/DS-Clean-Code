@@ -44,7 +44,8 @@ class ProductController {
 
     update(req, res) {
         try {
-            const { id, name, price, quantity } = req.body;
+            const id = req.params.id;
+            const { name, price, quantity } = req.body;
 
             const updated = this.productService.update(id, {name, price, quantity});
 
@@ -57,4 +58,4 @@ class ProductController {
 
 }
 
-module.exports = new ProductController;
+module.exports = ProductController;

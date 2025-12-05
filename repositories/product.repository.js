@@ -57,28 +57,28 @@ class ProductRepository{
     }
 //A rota deve permitir edição de nome, preço e quantidade em estoque dos produtos
     update(id, values) {
-        const index = this.products.findIndex(p => p.id === id);
+        const productIndex = productList.findIndex((product) => product.id === Number(id));
 
-        if (index === -1) {
+        if (productIndex === -1) {
             return null;
         }
 
         if (values.name) {
-            productList[index].name = values.name;
+            productList[productIndex].name = values.name;
         }
 
         if (values.price) {
-            productList[index].price = values.price;
+            productList[productIndex].price = values.price;
         }
 
         if (values.quantity) {
-            productList[index].quantity = values.quantity;
+            productList[productIndex].quantity = values.quantity;
         }
 
-        return this.products[index];
+        return productList[productIndex];
     }
 
 }
 
 
-module.exports = new ProductRepository;
+module.exports = ProductRepository;
