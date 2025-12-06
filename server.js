@@ -3,6 +3,8 @@ const ErrorHandler = require("./middleware/ErrorHandler");
 const ProductRepository = require("./repositories/product.repository");
 const ProductService = require("./services/product.service");
 const ProductController = require("./controllers/product.controller");
+const ProductFirebaseRepository = require("./")
+const db = require("./config/firebase");
 
 // estara utilizando o express como base 
 const server = express();
@@ -17,9 +19,9 @@ const port= 3000;
         quantity:4
     },
 ];*/
-
+const productFirebaseRepository = new ProductFirebaseRepository(); //importar caminho...pendência
 const productRepository = new ProductRepository();
-const productService = new ProductService(productRepository);
+const productService = new ProductService(productRepository); //  <---- trocar para (productFirebaseRepository)
 const productController = new ProductController(productService);
 
 // Criando a API das ... rota? ...

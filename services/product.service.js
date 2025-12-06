@@ -11,8 +11,9 @@ class ProductService {
 
     }
 
-    create(newProduct){
-        const existProduct =  this.productRepository.findByName(newProduct.name);
+    async create(newProduct){
+        const existProduct = await this.productRepository.findByName(newProduct.name);
+        
         if(existProduct){
             throw new ProductExistsError();
         }
@@ -55,6 +56,17 @@ class ProductService {
             }
 
             return this.productRepository.update(id, values);
+    }
+
+    async findByName (name){
+        const product = await this.db.where("nome", "==", name).get();
+
+        if (product.empty){
+            return null;
+        }
+
+        // trazer documentos cada linha
+        return product.docs[0].data();
     }
 }
 
